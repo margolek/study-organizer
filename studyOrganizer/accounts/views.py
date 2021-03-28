@@ -1,9 +1,19 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
 from . import forms
-from django.views.generic.edit import CreateView
+from django.contrib import messages
+from django.shortcuts import redirect
 
-class RegisterUser(CreateView):
-	form_class = forms.CreateNewUserForm
-	success_url = reverse_lazy('login')
-	template_name = 'accounts/register.html'
+
+def register(request):
+	if request.method == 'POST':
+		form = forms.CreateNewUserForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			messages.success(request, 'Account Create for {}'.format(username))
+			return redirect('index')
+	else:
+		form = forms.CreateNewUserForm()
+
+	return render(request, 'accounts/register.html',{'form': form})
+

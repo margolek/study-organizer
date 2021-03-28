@@ -16,7 +16,7 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark" id="mynavbar">
 		<div class="container">
-			<a class="navbar-brand" href="#">Study Organizer</a>
+			<a class="navbar-brand" href="{% url 'index' %}">Study Organizer</a>
 			<ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
 				<li class="nav-item dropdown">
@@ -41,9 +41,9 @@
       			</li>
 				<li class="nav-item dropdown">
         			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        				<span class="material-icons">perm_identity</span><span class="align-top"> Username</span></a>
+        				<span class="material-icons">perm_identity</span><span class="align-top"> {{ user.username }}</span></a>
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          				<a class="dropdown-item" href="#"><span class="material-icons">face</span> Profile</a>
+          				<a class="dropdown-item" href="{% url 'accounts:profile' %}"><span class="material-icons">face</span> Profile</a>
           				<a class="dropdown-item" href="#"><span class="material-icons">settings</span> Preferences</a>
           			<div class="dropdown-divider"></div>
           				<a class="dropdown-item" href="{% url 'accounts:logout' %}"><span class="material-icons">logout</span> Logout</a>

@@ -15,8 +15,9 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = BASE_DIR/'templates'
-
+#TEMPLATE_DIR = BASE_DIR/'templates'
+TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+MEDIA_DIR = os.path.join(BASE_DIR,'media')
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'bootstrap4',
-    'crispy_forms',
-
 ]
 
 MIDDLEWARE = [
@@ -132,7 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR/'static',
+    BASE_DIR/'static'
 ]
-LOGIN_REDIRECT_URL = 'default'
-LOGOUT_REDIRECT_URL = 'default'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'

@@ -1,4 +1,4 @@
-"""studyOrganizer URL Configuration
+"""mediapage URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -14,13 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path,include
 from studyOrganizer import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.DefaultView.as_view(),name='default'),
+    path('',views.HomePage.as_view(),name='index'),
     path('accounts/',include('accounts.urls',namespace='accounts')),
-    path('accounts/',include('django.contrib.auth.urls')),
-
 ]

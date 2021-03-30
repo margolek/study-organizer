@@ -10,13 +10,18 @@ class CreateNewUserForm(UserCreationForm):
 
 	class Meta:
 		model = User
-		fields = ('username','first_name','last_name',
-				  'email','password1','password2')
+		fields = ['username','first_name','last_name',
+				  'email','password1','password2']
 
 class UpdateProfileImage(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ('prof_img')
+		fields = ['prof_img',]
+
+class UpdateProfileInfo(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['first_name','last_name']
 
 
 

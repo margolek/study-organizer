@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import (CreateNewUserForm, UpdateProfileImage,
+from . forms import (CreateNewUserForm, UpdateProfileImage,
 					UpdateProfileInfo)
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -19,24 +19,21 @@ def register(request):
 	else:
 		form = CreateNewUserForm()
 
-	return render(request, 'accounts/register.html',{'form': form})
+	return render(request, 'accounts/register.html',{'form':form})
 
 @login_required
 def profile(request):
-	if request.method == 'POST':
-		form_info = UpdateProfileInfo(request.POST)
-		if form_info.is_valid():
-			form_info.save()
-			messages.success(request, 'Profile picture updated successfully!')
-			return redirect('index')
-	else:
-		form_info = UpdateProfileInfo(instance=request.user)
+    if request.method == 'POST':
+        form = UpdateProfileInfo(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account update successfully')
+            return redirect('index')
 
-	my_dict = {
-		'form_info':form_info
-	}
-
-	return render(request, 'accounts/profile.html',my_dict)
+    else:
+        form = UpdateProfileInfo(instance=request.user)
+        
+    return render(request, 'accounts/profile.html', {'form':form})
 
 
 

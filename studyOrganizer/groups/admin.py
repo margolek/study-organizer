@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Group, GroupContent, GroupComments
 
-# Register your models here.
+admin.site.register(Group)
+admin.site.register(GroupContent)
+admin.site.register(GroupComments)
+

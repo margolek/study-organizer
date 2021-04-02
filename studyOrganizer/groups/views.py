@@ -40,7 +40,7 @@ def create_group_content(request):
 			form.instance.author = user
 			form.save()
 			messages.success(request, f'Posted successfully')
-			return redirect('groups:detail',kwargs={'pk':request.group.pk})
+			return redirect('groups:content_view')
 	else:
 		form = GroupContentForm()
 	return render(request,'groups/content_form.html',{'form':form})
@@ -51,22 +51,46 @@ class GroupContentUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 	template_name = 'groups/content_form.html'
 
 	def form_valid(self,form):
-		pass
+		form.instance.author = self.request.user
+		return super().form_valid()
 
 	def test_func(self):
-		pass
+		group_content = self.get_object()
+		if self.request.user == group_content.author:
+			return True
+		return False
 
 class GroupContentDelete(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
-	pass
+	model = GroupContent
+	success_url = 'groups:list'
 
-##################
-###View Methods###
-##################
+	def test_func(self):
+		group_content = self.get_object()
+		if self.request.user == group_content.author:
+			return True
+		return False
+
+###################
+###Views Methods###
+###################
 
 class ListGroup(ListView):
 	model = Group
+	context_object_name = 'group'
+
 class SingleGroup(DetailView):
 	model = Group
 
-class GroupContentView
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		context['post_lists'] = GroupContent.objects.all()
+		return context
+
+# class GroupContentView(ListView):
+# 	model = GroupContent
+# 	template_name = 'groups/content_list.html'
+# 	context_object_name = 'group_content'
+# 	ordering = ['-creation_date']
+
+
 

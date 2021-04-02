@@ -1,0 +1,12 @@
+{% extends "groups/group_base.html" %}
+{% block header %}
+	<h2>{{ group.name }}</h2>
+	<p>Created by: {{ group.created_by }}</p>
+{% endblock %}
+{% block posts %}
+	{% for element in post_lists %}
+		<a href="#"><h2>{{ element.topic }}</h2></a>
+		<p>{{ element.author }}</p>
+		<p>{{ element.creation_date }}</p>
+	{% endfor %}
+{% endblock %}

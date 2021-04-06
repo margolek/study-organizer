@@ -1,7 +1,0 @@
-{% extends "groups/group_base.html" %}
-{% block posts %}
-	{% for element in group_content %}
-		<h2>{{ element.topic }}</h2>
-		<p>{{ element.author }}</p>
-	{% endfor %}
-{% endblock %}

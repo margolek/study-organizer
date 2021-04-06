@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'sorl.thumbnail',
     'groups',
-    'groupcontent',
+    'posts',
 ]
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

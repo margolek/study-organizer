@@ -1,12 +1,34 @@
 {% extends "groups/group_base.html" %}
+{% load bootstrap4 %}
 {% block header %}
 	<h2>{{ group.name }}</h2>
 	<p>Created by: {{ group.created_by }}</p>
+	{% if user.is_authenticated %}
+	<a href="{% url 'groups:content_create' pk=group.pk %}" class="btn btn-primary">
+		<span class="material-icons">post_add</span>
+		Create new topic!
+	</a>
+	{% endif %}
 {% endblock %}
 {% block posts %}
-	{% for element in post_lists %}
+	{% for element in group.groupacc.all %}
 		<a href="#"><h2>{{ element.topic }}</h2></a>
 		<p>{{ element.author }}</p>
 		<p>{{ element.creation_date }}</p>
+		{% if element.author == user %}
+			<div>
+{# post_id=groupcontent.pk #}
+{# {% url 'groups:content_update' pk=group.pk post_id=post_id%} #}
+				<a href="#" class="btn btn-sm btn-outline-warning">
+					<span class="material-icons">update</span>
+					Update Post
+				</a>
+				{# {% url 'groups:content_delete' alt_pk=groupcontent.pk %} #}
+				<a href="" class="btn btn-sm btn-outline-danger">
+					<span class="material-icons">delete</span>
+					Delete Post
+				</a>
+			</div>
+		{% endif %}
 	{% endfor %}
 {% endblock %}

@@ -15,7 +15,7 @@ def register(request):
 			form.save()
 			username = form.cleaned_data.get('username')
 			messages.success(request, 'Account Create for {}'.format(username))
-			return redirect('index')
+			return redirect('accounts:login')
 	else:
 		form = CreateNewUserForm()
 
@@ -28,7 +28,7 @@ def profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account update successfully')
-            return redirect('index')
+            return redirect('accounts:profile')
 
     else:
         form = UpdateProfileInfo(instance=request.user)

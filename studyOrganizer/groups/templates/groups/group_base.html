@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron text-center">
+	<div class="ml-5">
+		{% block header %}{% endblock %}
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="jumbotron">
+			{% block posts %}{% endblock %}
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class=" jumbotron content-section text-center">
+			{% block postblock %}{% endblock %}
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'accounts.apps.AccountsConfig',
     'bootstrap4',
     'sorl.thumbnail',
+
+    'groups',
+    'posts',
 ]
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

@@ -4,7 +4,7 @@
 	<h2>{{ group.name }}</h2>
 	<p>Created by: {{ group.created_by }}</p>
 	{% if user.is_authenticated %}
-	<a href="{% url 'groups:content_create' pk=group.pk %}" class="btn btn-primary">
+	<a href="{% url 'posts:create' slug=group.slug %}" class="btn btn-primary">
 		<span class="material-icons">post_add</span>
 		Create new topic!
 	</a>
@@ -12,19 +12,19 @@
 {% endblock %}
 {% block posts %}
 	{% for element in group.groupacc.all %}
-		<a href="#"><h2>{{ element.topic }}</h2></a>
-		<p>{{ element.author }}</p>
-		<p>{{ element.creation_date }}</p>
+		<a href="{% url 'posts:detail' pk=element.pk %}"><h2>{{ element.topic }}</h2></a>
+		<p>Author: {{ element.author }}</p>
+		<p>Created: {{ element.creation_date }}</p>
+		{% if element.updated_date != element.creation_date %}
+			<p>Last updated: {{element.updated_date}}</p>
+		{% endif %}
 		{% if element.author == user %}
 			<div>
-{# post_id=groupcontent.pk #}
-{# {% url 'groups:content_update' pk=group.pk post_id=post_id%} #}
-				<a href="#" class="btn btn-sm btn-outline-warning">
+				<a href="{% url 'posts:update' slug=group.slug pk=element.pk %}" class="btn btn-sm btn-outline-warning">
 					<span class="material-icons">update</span>
 					Update Post
 				</a>
-				{# {% url 'groups:content_delete' alt_pk=groupcontent.pk %} #}
-				<a href="" class="btn btn-sm btn-outline-danger">
+				<a href="{% url 'posts:delete' pk=element.pk slug=group.slug %}" class="btn btn-sm btn-outline-danger">
 					<span class="material-icons">delete</span>
 					Delete Post
 				</a>

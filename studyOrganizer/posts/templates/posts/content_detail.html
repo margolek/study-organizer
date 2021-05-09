@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+	<div class="row">
+	<div class="col-md-8">
+	<h1>{{group_content.topic}}</h1>
+	<div>
+		<a href="{{ user.profile.prof_img.get_absolute_url }}"><img
+              src="{{ user.profile.prof_img.url }}"
+              class="rounded-circle"
+              width="30"
+              height="30"
+              alt=""/>
+        </a>
+		<p>{{ group_content.author }}</p>
+		<small class="text-muted">
+			Posted on {{ group_content.creation_date }}
+		</small>
+	</div>
+	<p>{{group_content.context}}</p>
+	<div class="card">
+	<div class="card-body">
+	<form class="form-signin" method="POST">
+		{% csrf_token %}
+		{% bootstrap_form form %}
+		<input type="submit" class="btn btn-primary btn-block" value="Add comment">
+	</form>
+	</div>
+	</div>
+	</div>
+	</div>
+	<br>
+	<div class="row">
+	<div class="col-md-8">
+	{% if group_content.comments.all %}
+	<div class="card">
+		{% for comment in group_content.comments.all %}
+			<div class="card-body">
+				<a href="#"><b>{{ comment.author }}</b></a>
+				<br>
+				<small>{{ comment.date }}</small>
+				<p>{{ comment.text }}</p>
+				<hr>
+			</div>
+		{% endfor %}
+	{% else %}
+		<h3>No comments yet!</h3>
+	{% endif %}
+	</div>
+	</div>
+	</div>
+{% endblock %}

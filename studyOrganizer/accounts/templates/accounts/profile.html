@@ -2,7 +2,9 @@
 {% load bootstrap4 %}
 {% block content %}
 <div class="jumbotron">
-	<img class="rounded-circle" src="{{ user.profile.prof_img.url }}">
+	<a href="{{ user.profile.prof_img.url }}">
+	<img class="rounded-circle" src="{{ user.profile.prof_img.url }}" width="150px" height="150px">
+	</a>
 	<h2>{{ user.username }}</h2>
 	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}

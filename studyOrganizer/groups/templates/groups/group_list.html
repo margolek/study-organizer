@@ -2,7 +2,7 @@
 {% block content %}
 <div class="jumbotron text-center">
 	{% for element in group %}
-		<a href="{% url 'groups:detail' pk=element.pk %}"><h2>{{element.name}}</h2></a>
+		<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
 		<p>{{element.description}}</p>
 	{% endfor %}
 </div>

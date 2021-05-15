@@ -1,5 +1,5 @@
 from . forms import GroupsModelForm
-from . models import Group
+from . models import Group, GroupMember
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -7,6 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.views import generic
 from django.contrib.auth.models import User
 
 
@@ -61,6 +62,49 @@ class SingleGroup(DetailView):
 # 	model = GroupContent
 # 	template_name = 'groups/content_detail.html'
 # 	context_object_name = 'group_content'
+
+
+#########################
+###Join and Left Group###
+#########################
+
+class JoinGroup(LoginRequiredMixin,generic.base.RedirectView):
+
+	def get_redirect_url(self,*args,**kwargs):
+		return reverse('groups:list')
+
+	def get(self,request,*args,**kwargs):
+		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
+
+		try:
+			GroupMember.objects.create(user=self.request.user,group=group)
+		except:
+			messages.warning(self.request,('Warning already a member!'))
+		else:
+			messages.success(self.request, f'You are now a member of group: "{group}"!')
+
+		return super().get(request,*args,**kwargs)
+
+
+class LeaveGroup(LoginRequiredMixin,generic.base.RedirectView):
+
+	def get_redirect_url(self,*args,**kwargs):
+		return reverse('groups:list')
+
+	def get(self,request,*args,**kwargs):
+		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
+		try:
+			membership = GroupMember.objects.filter(
+				user=self.request.user,
+				group__slug=self.kwargs.get('slug')).get()
+
+		except models.GroupMember.DoesNotExist:
+			messages.warning(self.request, 'Sorry you are not in this group!')
+
+		else:
+			membership.delete()
+			messages.warning(self.request, f'You are left the group: {group}!')
+		return super().get(request,*args,**kwargs)
 	
 
 

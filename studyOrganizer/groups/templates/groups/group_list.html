@@ -1,9 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron text-center">
-	{% for element in group %}
-		<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
-		<p>{{element.description}}</p>
-	{% endfor %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-md-9 col-lg-7 mx-auto my-5">
+				{% if group %}
+				<div class="card card-signin my-5">
+					<div class="card-body">
+					{% for element in group %}
+						<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
+						<div class="content">
+							{% if user in element.members.all %}
+								<small class="float-right">
+								<a href="{% url 'groups:leave' slug=element.slug %}" 
+								class="btn btn-lg btn-fill btn-danger mr-2">
+									<span class="material-icons">remove_circle</span>Leave
+								</a>
+								</small>
+							{% else %}
+								<small class="float-right">
+								<a href="{% url 'groups:join' slug=element.slug %}" 
+								class="btn btn-lg btn-fill btn-success mr-2">
+									<span class="material-icons">check_circle</span>Join
+								</a>
+								</small>
+							{% endif %}
+						</div>
+						<p>{{element.description}}</p>
+						<div class="text-muted">
+						<p>Created by: {{ element.created_by }}</p>
+						{# <a href="{% url 'groups:detail' slug=element.slug %}"><p>{{element.name}}</p></a> #}
+						</div>
+						<hr>
+					{% endfor %}
+					</div>
+				</div>
+				{% else %}
+					<h2>No group yet!</h2>
+				{% endif %}
+		</div>
+	</div>
 </div>
 {% endblock %}

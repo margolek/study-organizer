@@ -2,9 +2,12 @@
 {% load bootstrap4 %}
 {% block content %}
 	<div class="row">
-	<div class="col-md-8">
-	<h1>{{group_content.topic}}</h1>
-	<div>
+	<div class="col-md-8 mx-auto">
+
+	<div class="card">
+	<div class="body-card">
+	<div class="text-center">
+		<h1>{{group_content.topic}}</h1>
 		<a href="{{ user.profile.prof_img.get_absolute_url }}"><img
               src="{{ user.profile.prof_img.url }}"
               class="rounded-circle"
@@ -17,7 +20,15 @@
 			Posted on {{ group_content.creation_date }}
 		</small>
 	</div>
+	</div>
+	</div>
+	<br>
+	<div class="card">
+	<div class="body-card ml-2">
 	<p>{{group_content.context}}</p>
+	</div>
+	</div>
+	<br>
 	<div class="card">
 	<div class="card-body">
 	<form class="form-signin" method="POST">
@@ -31,7 +42,7 @@
 	</div>
 	<br>
 	<div class="row">
-	<div class="col-md-8">
+	<div class="col-md-8 mx-auto">
 	{% if group_content.comments.all %}
 	<div class="card">
 		{% for comment in group_content.comments.all %}

@@ -14,7 +14,7 @@ class Group(models.Model):
 	image = models.ImageField(blank=True)
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE,
 								   related_name='author')
-	members = models.ManyToManyField(User,related_name='members')
+	members = models.ManyToManyField(User,related_name='members',through='GroupMember')
 
 	def __str__(self):
 		return self.name
@@ -28,6 +28,18 @@ class Group(models.Model):
 
 	class Meta:
 		ordering = ['name']
+
+class GroupMember(models.Model):
+	group = models.ForeignKey(Group,related_name='membership',
+							  on_delete=models.CASCADE)
+	user = models.ForeignKey(User,related_name='user_group',
+							 on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.user.username
+
+	class Meta:
+		unique_together = ['group','user']
 
 
 

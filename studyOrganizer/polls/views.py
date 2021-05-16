@@ -1,10 +1,30 @@
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
+from django.utils import timezone
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.http import JsonResponse
-
 from .models import Question, Choice
+from .forms import QuestionForm
+
+
+@login_required
+def createpolls(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.pub_date = timezone.now
+            form.save()
+            messages.success(request, message='New group created successfully')
+            return redirect('polls:index')
+    else:
+        form = QuestionForm()
+
+    return render(request, 'polls/polls_form.html',{'form':form})
 
 # Get questions and display them
 def index(request):

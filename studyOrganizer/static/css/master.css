@@ -1,0 +1,11 @@
+html{
+    background-image: url('../img/background_2.jpg');
+    background-size: cover;
+}
+body {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.7);
+}

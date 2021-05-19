@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from .models import Question, Choice
-#, Vote
 
 admin.site.site_header = "Pollster Admin"
 admin.site.site_title = "Pollster Admin Area"
@@ -21,5 +20,4 @@ class QuestionAdmin(admin.ModelAdmin):
 
 # admin.site.register(Question)
 # admin.site.register(Choice)
-# admin.site.register(Vote)
 admin.site.register(Question, QuestionAdmin)

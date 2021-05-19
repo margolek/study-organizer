@@ -8,8 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import Question, Choice
-from .forms import QuestionForm, EditQuestionForm, AddQuestionChoice
-from django.core.paginator import Paginator #Refill in future
+from .forms import QuestionForm
 
 
 @login_required
@@ -19,13 +18,8 @@ def createpolls(request):
         if form.is_valid():
             form.save(commit=False)
             form.instance.pub_date = timezone.now
-            form.instance.created_by = request.user
             form.save()
-            # new_choice1 = Choice(
-            #     poll=poll, choice_text=form.cleaned_data['choice1']).save()
-            # new_choice2 = Choice(
-            #     poll=poll, choice_text=form.cleaned_data['choice2']).save()                      
-            messages.success(request, message='New Poll created successfully')
+            messages.success(request, message='New group created successfully')
             return redirect('polls:index')
     else:
         form = QuestionForm()

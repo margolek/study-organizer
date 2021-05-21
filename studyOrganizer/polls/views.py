@@ -69,22 +69,36 @@ def add_choice(request, pk):
         return redirect('polls:index')
 
     if request.method == 'POST':
-        form = ChoiceAddForm(request.POST)
+        form = AddChoiceForm(request.POST)
         if form.is_valid:
             new_choice = form.save(commit=False)
-            new_choice.poll = poll
+            new_choice.question = question
             new_choice.save()
-            messages.success(
-                request, "Choice added successfully", extra_tags='alert alert-success alert-dismissible fade show')
-            return redirect('polls:edit', poll.id)
+            messages.success(request, "Choice added successfully")
+            return redirect('polls:index')
     else:
-        form = ChoiceAddForm()
+        form = AddChoiceForm()
     context = {
         'form': form,
     }
     return render(request, 'polls/add_choice.html', context)
 
+# Update Poll Choice
+# class ChoiceUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,UpdateView):
+#     model = Choice
+#     form_class = AddChoiceForm
+#     template_name = 'polls/update_choice.html'
+#     success_message = 'Question Choice Updated successfully'
 
+#     def test_func(self):
+#         question = self.get_object()
+#         if self.request.user == question.created_by:
+#             return True
+#         return False
+
+#     def get_success_url(self):
+#         pk =self.kwargs['pk']
+#         return reverse_lazy('polls:edit', kwargs={'pk':pk})
 
 # Get questions and display them
 def index(request):
@@ -111,6 +125,9 @@ def results(request, pk):
 # Vote for a question choice
 def vote(request, pk):
     question = get_object_or_404(Question, pk=pk)
+    if not question.voting_permission(request.user):
+        messages.warning(request, "You already voted this poll !")
+        return redirect("polls:index")
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):

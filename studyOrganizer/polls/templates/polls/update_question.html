@@ -5,6 +5,22 @@
 		<form method="POST">
 			{% csrf_token %}
 			{% bootstrap_form form %}
-			<input type="submit" class="btn btn-primary btn-large" value="Update">
+			<input type="submit" class="btn btn-primary btn-large" value="Update Question">
+            <a class="btn btn-warning" href="{% url 'polls:add_choice' question.id %}" role="button">Add Choice</a>	
 		</form>
+        <div class="choices">
+            <h2 class="text-center mt-3">Polling Options</h2>
+            <ul class="list-group">
+                {% for choice in question.choice_set.all %}
+                <li class="list-group-item">
+                	<a href="#">
+                		<span class="material-icons">edit</span>
+                	</a>
+                    {{ choice.choice_text }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
 {% endblock %}
+
+{# {% url 'polls:choice_edit' choice.id %} #}

@@ -6,9 +6,9 @@
       <div class="card mb-3">
         <div class="card-body">
           <p class="lead">{{ question.question_text }}</p>
-          <a href="{% url 'polls:detail' question.pk %}" class="btn btn-primary btn-sm">Vote Now</a>
+          <a href="{% url 'polls:detail' question.pk %}" class="btn btn-primary btn-sm">Vote</a>
           <a href="{% url 'polls:results' question.pk %}" class="btn btn-secondary btn-sm">Results</a>
-          <a href="{% url 'polls:update' question.pk %}" class="btn btn-warning btn-sm">Update Question</a>
+          <a href="{% url 'polls:edit' question.pk %}" class="btn btn-warning btn-sm">Edit</a>
           <a href="{% url 'polls:delete' question.pk %}" class="btn btn-danger btn-sm">Delete</a>
         </div>
       </div>

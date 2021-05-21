@@ -12,13 +12,13 @@ class Question(models.Model):
 
 	def voting_permission(self,user):
 		"""
-		Function check if user voted current poll
+		False if user already voted
 		"""
 		vote = user.vote_set.all()
-		q = user_votes.filter(question=self)
+		q = vote.filter(question=self)
 		if q.exists():
-			return False
-		return True
+			return True
+		return False
 
 
 class Choice(models.Model):

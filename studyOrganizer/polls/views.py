@@ -2,52 +2,115 @@ from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse
 from django.utils import timezone
+from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .models import Question, Choice
-from .forms import QuestionForm
+from .forms import QuestionForm, EditQuestionForm, AddChoiceForm
 
 
 @login_required
-def createpolls(request):
+def create_polls(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
-            form.instance.pub_date = timezone.now
-            form.save()
-            messages.success(request, message='New group created successfully')
+            question = form.save(commit=False)
+            question.created_by = request.user
+            question.pub_date = timezone.now()
+            question.save()
+            new_choice1 = Choice(
+                question=question, choice_text=form.cleaned_data['choice1']).save()
+            new_choice2 = Choice(
+                question=question, choice_text=form.cleaned_data['choice2']).save()
+            messages.success(request, message='New Poll created successfully')
             return redirect('polls:index')
     else:
         form = QuestionForm()
 
     return render(request, 'polls/polls_form.html',{'form':form})
 
+# Update Poll question
+class PollUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,UpdateView):
+    model = Question
+    form_class = EditQuestionForm
+    template_name = 'polls/update_question.html'
+    success_message = 'Question Updated successfully'
+    success_url = reverse_lazy('polls:index')
+
+    def test_func(self):
+        question = self.get_object()
+        if self.request.user == question.created_by:
+            return True
+        return False
+
+# Delete existing poll
+class PollDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Question
+    success_url = reverse_lazy('polls:index')
+
+    def test_func(self):
+        question = self.get_object()
+        if self.request.user == question.created_by:
+            return True
+        return False
+
+@login_required
+def add_choice(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+
+    if request.user != question.created_by:
+        return redirect('polls:index')
+
+    if request.method == 'POST':
+        form = ChoiceAddForm(request.POST)
+        if form.is_valid:
+            new_choice = form.save(commit=False)
+            new_choice.poll = poll
+            new_choice.save()
+            messages.success(
+                request, "Choice added successfully", extra_tags='alert alert-success alert-dismissible fade show')
+            return redirect('polls:edit', poll.id)
+    else:
+        form = ChoiceAddForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'polls/add_choice.html', context)
+
+
+
 # Get questions and display them
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
+    question_list = Question.objects.order_by('-pub_date')
+    paginator = Paginator(question_list, 3)
+    page = request.GET.get('page')
+    question_list = paginator.get_page(page)
+    context = {'question_list': question_list}
     return render(request, 'polls/index.html', context)
 
 # Show specific question and choices
-def detail(request, question_id):
+def detail(request, pk):
   try:
-    question = Question.objects.get(pk=question_id)
+    question = Question.objects.get(pk=pk)
   except Question.DoesNotExist:
     raise Http404("Question does not exist")
   return render(request, 'polls/detail.html', { 'question': question })
 
 # Get question and display results
-def results(request, question_id):
-  question = get_object_or_404(Question, pk=question_id)
+def results(request, pk):
+  question = get_object_or_404(Question, pk=pk)
   return render(request, 'polls/results.html', { 'question': question })
 
 # Vote for a question choice
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+def vote(request, pk):
+    question = get_object_or_404(Question, pk=pk)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):

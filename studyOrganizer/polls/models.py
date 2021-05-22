@@ -17,8 +17,8 @@ class Question(models.Model):
 		vote = user.vote_set.all()
 		q = vote.filter(question=self)
 		if q.exists():
-			return True
-		return False
+			return False
+		return True
 
 
 class Choice(models.Model):

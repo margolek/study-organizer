@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from .models import Question, Choice
+from .models import Question, Choice, Vote
 from .forms import QuestionForm, EditQuestionForm, AddChoiceForm
 
 
@@ -125,11 +125,13 @@ def results(request, pk):
 # Vote for a question choice
 def vote(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    if not question.voting_permission(request.user):
-        messages.warning(request, "You already voted this poll !")
-        return redirect("polls:index")
     try:
+        if not question.voting_permission(request.user):
+            messages.warning(request, "You already voted this poll !")
+            return redirect("polls:index")
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        vote = Vote(user=request.user, question=question, choice=selected_choice)
+        vote.save()
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {

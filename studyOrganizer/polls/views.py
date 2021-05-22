@@ -19,7 +19,7 @@ from .forms import QuestionForm, EditQuestionForm, AddChoiceForm
 @login_required
 def create_polls(request):
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        form = QuestionForm(request.POST,user=request.user)
         if form.is_valid():
             question = form.save(commit=False)
             question.created_by = request.user

@@ -36,7 +36,7 @@ class GroupMember(models.Model):
 							 on_delete=models.CASCADE)
 
 	def __str__(self):
-		return self.user.username
+		return f'Group:{self.group},user:{self.user.username}'
 
 	class Meta:
 		unique_together = ['group','user']

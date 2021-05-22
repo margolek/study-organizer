@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from groups.models import Group
 
 
 class Question(models.Model):
-	created_by = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE,default='',null=True)
+	group = models.ForeignKey(Group, on_delete=models.CASCADE,default='',null=True)
 	question_text = models.CharField(max_length=200)
 	pub_date = models.DateTimeField('date published')
 

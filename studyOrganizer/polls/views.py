@@ -14,12 +14,14 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .models import Question, Choice, Vote
 from .forms import QuestionForm, EditQuestionForm, AddChoiceForm
+from groups.models import Group
+
 
 
 @login_required
 def create_polls(request):
     if request.method == 'POST':
-        form = QuestionForm(request.POST,user=request.user)
+        form = QuestionForm(user=request.user,data=request.POST)
         if form.is_valid():
             question = form.save(commit=False)
             question.created_by = request.user
@@ -32,7 +34,7 @@ def create_polls(request):
             messages.success(request, message='New Poll created successfully')
             return redirect('polls:index')
     else:
-        form = QuestionForm()
+        form = QuestionForm(user=request.user)
 
     return render(request, 'polls/polls_form.html',{'form':form})
 
@@ -101,6 +103,12 @@ def add_choice(request, pk):
 #         return reverse_lazy('polls:edit', kwargs={'pk':pk})
 
 # Get questions and display them
+
+# def group_check(request):
+#     pass
+
+
+# @user_passes_test(group_check)
 def index(request):
     question_list = Question.objects.order_by('-pub_date')
     paginator = Paginator(question_list, 3)

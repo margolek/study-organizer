@@ -1,16 +1,12 @@
 from django import forms
 from .models import Question,Choice
 from groups.models import Group, GroupMember
+
 class QuestionForm(forms.ModelForm):
 
 	choice1 = forms.CharField(label='Choice 1')
 	choice2 = forms.CharField(label='Choice 2')
 
-	# def __init__(self, user=None, **kwargs):
-	# 	super(QuestionForm, self).__init__(**kwargs)
-	# 	if user:
-	# 		self.fields['group'].queryset = GroupMember.objects.filter(user=user)
-			
 	class Meta:
 		model = Question
 		fields = ['group','question_text','choice1','choice2']
@@ -19,6 +15,12 @@ class QuestionForm(forms.ModelForm):
 			'choice1': forms.TextInput(attrs={'class': 'form-control'}),
 			'choice2': forms.TextInput(attrs={'class': 'form-control'}),
 		}
+
+	def __init__(self, user=None, **kwargs):
+		super(QuestionForm, self).__init__(**kwargs)
+		if user:
+			self.fields['group'].queryset = Group.objects.filter(members=user)
+
 
 class EditQuestionForm(forms.ModelForm):
 

@@ -105,13 +105,13 @@ def add_choice(request, pk):
 # Get questions and display them
 
 # def group_check(request):
-#     pass
+#     return request
 
 
 # @user_passes_test(group_check)
 def index(request):
     question_list = Question.objects.order_by('-pub_date')
-    paginator = Paginator(question_list, 3)
+    paginator = Paginator(question_list, 10)
     page = request.GET.get('page')
     question_list = paginator.get_page(page)
     context = {'question_list': question_list}
@@ -153,6 +153,7 @@ def vote(request, pk):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
 
 def resultsData(request, obj):
     votedata = []

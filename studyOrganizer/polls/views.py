@@ -104,12 +104,9 @@ def add_choice(request, pk):
 
 # Get questions and display them
 
-# def group_check(request):
-#     return request
 
-
-# @user_passes_test(group_check)
 def index(request):
+    # question = get_object_or_404(Question,pk=pk)
     question_list = Question.objects.order_by('-pub_date')
     paginator = Paginator(question_list, 10)
     page = request.GET.get('page')

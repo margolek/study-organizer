@@ -22,6 +22,13 @@ class Question(models.Model):
 			return False
 		return True
 
+	def group_permission(self,user):
+		"""
+		False if user not in group
+		"""
+		if user in self.group.members.all():
+			return True
+		return False
 
 class Choice(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)

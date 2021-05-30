@@ -46,9 +46,11 @@ class PollUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,Upda
     success_message = 'Question Updated successfully'
     success_url = reverse_lazy('polls:index')
 
+        
+
     def test_func(self):
         question = self.get_object()
-        if self.request.user == question.created_by:
+        if self.request.user == question.created_by and (self.request.user in question.group.members.all()):
             return True
         return False
 
@@ -59,7 +61,7 @@ class PollDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         question = self.get_object()
-        if self.request.user == question.created_by:
+        if self.request.user == question.created_by and (self.request.user in question.group.members.all()):
             return True
         return False
 
@@ -85,47 +87,38 @@ def add_choice(request, pk):
     }
     return render(request, 'polls/add_choice.html', context)
 
-# Update Poll Choice
-# class ChoiceUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,UpdateView):
-#     model = Choice
-#     form_class = AddChoiceForm
-#     template_name = 'polls/update_choice.html'
-#     success_message = 'Question Choice Updated successfully'
-
-#     def test_func(self):
-#         question = self.get_object()
-#         if self.request.user == question.created_by:
-#             return True
-#         return False
-
-#     def get_success_url(self):
-#         pk =self.kwargs['pk']
-#         return reverse_lazy('polls:edit', kwargs={'pk':pk})
-
-# Get questions and display them
-
 
 def index(request):
-    # question = get_object_or_404(Question,pk=pk)
+    permissions = []
     question_list = Question.objects.order_by('-pub_date')
+    for i in question_list:
+        permissions.append({i.question_text:i.voting_permission(request.user)})
+    print(permissions)
     paginator = Paginator(question_list, 10)
     page = request.GET.get('page')
     question_list = paginator.get_page(page)
-    context = {'question_list': question_list}
+    context = {'question_list': question_list,
+               'permissions':permissions}
     return render(request, 'polls/index.html', context)
 
 # Show specific question and choices
 def detail(request, pk):
   try:
     question = Question.objects.get(pk=pk)
+    if not question.group_permission(request.user):
+        messages.warning(request, "Permission denied!")
+        return redirect("polls:index")
   except Question.DoesNotExist:
     raise Http404("Question does not exist")
   return render(request, 'polls/detail.html', { 'question': question })
 
 # Get question and display results
 def results(request, pk):
-  question = get_object_or_404(Question, pk=pk)
-  return render(request, 'polls/results.html', { 'question': question })
+    question = get_object_or_404(Question, pk=pk)
+    if not question.group_permission(request.user):
+        messages.warning(request, "Permission denied!")
+        return redirect("polls:index")
+    return render(request, 'polls/results.html', { 'question': question })
 
 # Vote for a question choice
 def vote(request, pk):

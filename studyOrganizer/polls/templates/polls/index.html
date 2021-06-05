@@ -7,7 +7,9 @@
       <div class="card mb-3">
         <div class="card-body">
           <p class="lead">{{ question.question_text }}</p>
+          {% if permissions|get_item:question.question_text %}
           <a href="{% url 'polls:detail' question.pk %}" class="btn btn-primary btn-sm">Vote</a>
+          {% endif %}
           <a href="{% url 'polls:results' question.pk %}" class="btn btn-secondary btn-sm">Results</a>
           {% if user == question.created_by %}
             <a href="{% url 'polls:edit' question.pk %}" class="btn btn-warning btn-sm">Edit</a>

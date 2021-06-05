@@ -15,7 +15,7 @@ from django.http import JsonResponse
 from .models import Question, Choice, Vote
 from .forms import QuestionForm, EditQuestionForm, AddChoiceForm
 from groups.models import Group
-
+from django.template.defaulttags import register
 
 
 @login_required
@@ -87,12 +87,15 @@ def add_choice(request, pk):
     }
     return render(request, 'polls/add_choice.html', context)
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
 
 def index(request):
-    permissions = []
+    permissions = {}
     question_list = Question.objects.order_by('-pub_date')
     for i in question_list:
-        permissions.append({i.question_text:i.voting_permission(request.user)})
+        permissions[i.question_text] = i.voting_permission(request.user)
     print(permissions)
     paginator = Paginator(question_list, 10)
     page = request.GET.get('page')

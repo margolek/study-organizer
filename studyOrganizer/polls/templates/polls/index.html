@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+{% block content %} 
+  <h1 class="text-center mb-3">Poll Questions</h1>
+  {% if question_list %}
+    {% for question in question_list %}
+      {% if user in question.group.members.all %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <p class="lead">{{ question.question_text }}</p>
+          {% if permissions|get_item:question.question_text %}
+          <a href="{% url 'polls:detail' question.pk %}" class="btn btn-primary btn-sm">Vote</a>
+          {% endif %}
+          <a href="{% url 'polls:results' question.pk %}" class="btn btn-secondary btn-sm">Results</a>
+          {% if user == question.created_by %}
+            <a href="{% url 'polls:edit' question.pk %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'polls:delete' question.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>No polls available</p>
+  {% endif %}
+{% endblock %}

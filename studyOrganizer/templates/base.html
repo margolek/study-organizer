@@ -34,11 +34,9 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="material-icons">poll</span><span class="align-top"> Polls</span></a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#"><span class="material-icons">add</span> Create New</a>
-                  <a class="dropdown-item" href="#"><span class="material-icons">edit</span> Fill out Available Forms</a>
-                <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><span class="material-icons">schedule</span> Completed Forms</a>
-              </div>
+                  <a class="dropdown-item" href="{% url 'polls:create' %}"><span class="material-icons">add</span> Create New</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'polls:index' %}"><span class="material-icons">edit</span>Available Forms</a>
         </li>
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

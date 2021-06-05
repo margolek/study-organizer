@@ -31,21 +31,6 @@ def creategroup(request):
 	return render(request, 'groups/group_form.html',{'form':form})
 
 
-# def update_group_content(request,pk,post_id)
-
-# 	group = get_object_or_404(Group,pk=pk)
-# 	content = get_object_or_404(GroupComments,pk=post_id)
-# 	form = GroupContentForm()
-# 	post_id = GroupContentForm.objects.get(id=self.kwargs.get('post_id', ''))
-#         context['page_alt'] = page_alt
-# 	context = {
-# 		'form':form
-# 	}
-# 	return render(request, 'groups/content_form.html',context)
-
-
-
-
 
 ###################
 ###Views Methods###
@@ -57,11 +42,6 @@ class ListGroup(ListView):
 
 class SingleGroup(DetailView):
 	model = Group
-
-# class GroupContentDetailView(DetailView):
-# 	model = GroupContent
-# 	template_name = 'groups/content_detail.html'
-# 	context_object_name = 'group_content'
 
 
 #########################

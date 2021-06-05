@@ -35,8 +35,6 @@ class GroupMember(models.Model):
 	user = models.ForeignKey(User,related_name='user_group',
 							 on_delete=models.CASCADE)
 
-	def __str__(self):
-		return self.user.username
 
 	class Meta:
 		unique_together = ['group','user']

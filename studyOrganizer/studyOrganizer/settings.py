@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'groups',
     'posts',
+    'polls'
 ]
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

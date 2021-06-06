@@ -96,7 +96,6 @@ def index(request):
     question_list = Question.objects.order_by('-pub_date')
     for i in question_list:
         permissions[i.question_text] = i.voting_permission(request.user)
-    print(permissions)
     paginator = Paginator(question_list, 10)
     page = request.GET.get('page')
     question_list = paginator.get_page(page)

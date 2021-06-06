@@ -1,11 +1,23 @@
-html{
-    background-image: url('../img/background_2.jpg');
+#intro{
+    background-image: url('../img/background_4.jpg');
     background-size: cover;
+    height: 200px;
 }
-body {
-    background: rgba(0, 0, 0, 0.2);
+
+@media (min-width: 576px) {
+  #intro {
+    height: 600px;
+  }
+}
+
+.divider {
+  background-color: #eee;
 }
 
 .card {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.image-container {
+position: relative;
 }

@@ -2,25 +2,25 @@
 {% block content %}
 <div class="p-5 text-center bg-image" id="intro">
   <div class="mask" style="background-color: rgba(0, 0, 0, 0.5);">
-        	<div class="d-flex justify-content-center align-items-center h-100">
-          <div class="text-white">
-                        <h1 class="mb-3">Welcome to my home Page!</h1>
-        <h2 class="mb-3">Please Log In or Sign Up to check page funcionality!</h2>
-                              <a
-                class="btn btn-outline-light btn-lg m-2"
-                href="#!"
-                role="button"
-                >Log in</a
-              >
-              <a
-                class="btn btn-outline-light btn-lg m-2"
-                href="#!"
-                role="button"
-                >Sign Up</a
-              >
-          </div>
-        	</div>
-        </div>
-        </div>
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          <h1 class="mb-3">Study Organizer Home Page!</h1>
+          <h2 class="mb-3">Create new group or check out polls functionality!</h2>
+          <a
+            class="btn btn-outline-light btn-lg m-2"
+            href="{% url 'groups:list' %}"
+            role="button"
+            >Group List
+          </a>
+          <a
+            class="btn btn-outline-light btn-lg m-2"
+            href="{% url 'polls:index' %}"
+            role="button"
+            >Forms
+          </a>
+         </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 

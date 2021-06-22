@@ -1,5 +1,5 @@
 from . forms import GroupsModelForm
-from . models import Group, GroupMember
+from . models import Group, GroupMember, GroupRequest
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -38,32 +38,45 @@ def creategroup(request):
 
 class ListGroup(ListView):
 	model = Group
-	context_object_name = 'group'
+
+	def get_context_data(self, **kwargs):
+		group_request = []
+		group = Group.objects.all()
+		for i in GroupRequest.objects.all():
+			if i.from_user == self.request.user:
+				group_request.append(i.group)
+		context = super().get_context_data(**kwargs)
+		context['group'] = group
+		context['group_request'] = group_request
+		return context
 
 class SingleGroup(DetailView):
 	model = Group
-
 
 #########################
 ###Join and Left Group###
 #########################
 
-class JoinGroup(LoginRequiredMixin,generic.base.RedirectView):
+class SendGroupRequest(LoginRequiredMixin,generic.base.RedirectView):
 
 	def get_redirect_url(self,*args,**kwargs):
 		return reverse('groups:list')
 
 	def get(self,request,*args,**kwargs):
 		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
-
+		to_user = get_object_or_404(User,id=group.created_by.id)
 		try:
-			GroupMember.objects.create(user=self.request.user,group=group)
+			GroupRequest.objects.get_or_create(to_user=to_user,
+											   from_user=self.request.user,
+											   group=group)
 		except:
 			messages.warning(self.request,('Warning already a member!'))
 		else:
-			messages.success(self.request, f'You are now a member of group: "{group}"!')
+			messages.info(self.request, 'Your request has been sent!')
 
 		return super().get(request,*args,**kwargs)
+
+
 
 
 class LeaveGroup(LoginRequiredMixin,generic.base.RedirectView):

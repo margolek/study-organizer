@@ -39,6 +39,14 @@ class GroupMember(models.Model):
 	class Meta:
 		unique_together = ['group','user']
 
+class GroupRequest(models.Model):
+	group = models.ForeignKey(Group, on_delete=models.CASCADE,default='')
+	to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
+	from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
+	timestamp = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return "From {}, to {}, group: {}".format(self.from_user.username, self.to_user.username,self.group)
 
 
 

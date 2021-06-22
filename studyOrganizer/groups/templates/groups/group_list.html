@@ -17,12 +17,21 @@
 								</a>
 								</small>
 							{% else %}
+								{% if element in group_request %}
+								<small class="float-right">
+								<a href="#" 
+								class="btn btn-lg btn-fill btn-warning mr-2">
+									<span class="material-icons">remove_circle</span>Cancel Request
+								</a>
+								</small>
+								{% else %}
 								<small class="float-right">
 								<a href="{% url 'groups:join' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-success mr-2">
 									<span class="material-icons">check_circle</span>Join
 								</a>
-								</small>
+								</small>								
+								{% endif %}
 							{% endif %}
 						</div>
 						<p>{{element.description}}</p>

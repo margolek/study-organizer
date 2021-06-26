@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-sm-12 col-md-9 col-lg-7 mx-auto my-5">
 				{% if group %}
-				<div class="card card-signin my-5">
+				<div class="card my-5">
 					<div class="card-body">
 					{% for element in group %}
 						<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
@@ -19,7 +19,7 @@
 							{% else %}
 								{% if element in group_request %}
 								<small class="float-right">
-								<a href="#" 
+								<a href="{% url 'groups:cancel' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-warning mr-2">
 									<span class="material-icons">remove_circle</span>Cancel Request
 								</a>

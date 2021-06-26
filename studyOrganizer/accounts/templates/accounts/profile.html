@@ -2,9 +2,8 @@
 {% load bootstrap4 %}
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto my-5">
-      <div class="card card-signin">
+    <div class="col-sm-12 col-md-8 col-lg-8 mx-auto my-8">
+      <div class="card card-signin my-5">
         <div class="card-body">
         	<div class="card-title text-center">
 	          	<a href="{{ user.profile.prof_img.url }}">
@@ -27,6 +26,58 @@
         </div>
       </div>
     </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6 mx-auto my-6">
+      <div class="card mb-5">
+        <div class="card-body">
+					<h2><b>Request Sent</b></h2>
+					<hr class="my-2">
+					{% if not sent_request %}
+					<h5>No sent request!</h5>
+					{% else %}{% for s_request in sent_request %}
+        	<small class="float-right">
+          <a
+            class="btn btn-warning mr-2 my-1"
+            href="{% url 'groups:cancel' slug=s_request.group.slug %}"
+            >Cancel</a
+          >
+          </small>         
+          <p class="col-md-8"><b>{{s_request.group}}</b></p>					
+          <br/>
+					{% endfor %}{% endif %} 
+        </div>
+      </div>
+		</div>
+
+    <div class="col-sm-12 col-md-6 col-lg-6 mx-auto my-6">
+      <div class="card mb-5">
+        <div class="card-body">
+					<h2><b>Request Received</b></h2>
+					<hr class="my-2">
+					{% if not received_request %}
+					<h5>No requests received!</h5>
+					{% else %}{% for r_request in received_request %}
+        	<small class="float-right">
+          <a
+            class="btn btn-danger mr-2 my-1"
+            href="{% url 'groups:reject' slug=r_request.group.slug %}"
+            >Reject</a
+          >
+          </small>
+        	<small class="float-right">
+          <a
+            class="btn btn-success mr-2 my-1"
+            href="{% url 'groups:accept' slug=r_request.group.slug %}"
+            >Accept</a
+          >
+          </small> 
+          <p class="col-md-8"><b>{{r_request.from_user}}-{{r_request.group}}</b></p>					
+          <br/>
+					{% endfor %}{% endif %} 
+        </div>
+      </div>
+		</div>
   </div>
 </div>
 {% endblock content %}

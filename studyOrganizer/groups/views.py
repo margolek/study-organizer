@@ -76,8 +76,67 @@ class SendGroupRequest(LoginRequiredMixin,generic.base.RedirectView):
 
 		return super().get(request,*args,**kwargs)
 
+class CancelGroupRequest(LoginRequiredMixin,generic.base.RedirectView):
 
+	def get_redirect_url(self,*args,**kwargs):
+		return reverse('groups:list')
 
+	def get(self,request,*args,**kwargs):
+		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
+		to_user = get_object_or_404(User,id=group.created_by.id)
+		try:
+			group_request = GroupRequest.objects.filter(to_user=to_user,
+											   group=group).get()
+			group_request.delete()
+		except:
+			messages.warning(self.request,('You do not remove your group!'))
+		else:
+			messages.warning(self.request, 'Your request has been removed!')
+
+		return super().get(request,*args,**kwargs)
+
+class AcceptGroupRequest(LoginRequiredMixin,generic.base.RedirectView):
+
+	def get_redirect_url(self,*args,**kwargs):
+		return reverse('accounts:profile')
+
+	def get(self,request,*args,**kwargs):
+		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
+		to_user = get_object_or_404(User,id=group.created_by.id)
+		group_request = GroupRequest.objects.filter(group=group,to_user=to_user).first()
+		from_user = group_request.from_user
+		try:
+			GroupMember.objects.get_or_create(group=group,
+											  user=from_user)
+			group_request = GroupRequest.objects.filter(to_user=to_user,
+											   			group=group,
+											   			from_user=from_user).first()
+			group_request.delete()			
+		except:
+			messages.warning(self.request,('Warning already a member!'))
+		else:
+			messages.success(self.request, f'Request for {from_user}-{group} accepted successfully!')
+
+		return super().get(request,*args,**kwargs)
+
+class RejectGroupRequest(LoginRequiredMixin,generic.base.RedirectView):
+
+	def get_redirect_url(self,*args,**kwargs):
+		return reverse('accounts:profile')
+
+	def get(self,request,*args,**kwargs):
+		group = get_object_or_404(Group,slug=self.kwargs.get('slug'))
+		to_user = get_object_or_404(User,id=group.created_by.id)
+		try:
+			group_request = GroupRequest.objects.filter(to_user=to_user,
+											   group=group).get()
+			group_request.delete()			
+		except:
+			messages.warning(self.request,('User request not found!'))
+		else:
+			messages.success(self.request, f'You reject user request for group: {group}!')
+
+		return super().get(request,*args,**kwargs)
 
 class LeaveGroup(LoginRequiredMixin,generic.base.RedirectView):
 

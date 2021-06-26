@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
+from groups.models import GroupRequest
 
 
 
@@ -32,8 +33,17 @@ def profile(request):
 
     else:
         form = UpdateProfileInfo(instance=request.user)
-        
-    return render(request, 'accounts/profile.html', {'form':form})
+
+    sent_request = GroupRequest.objects.filter(from_user=request.user)
+    received_request = GroupRequest.objects.filter(to_user=request.user)
+
+    context = {
+    	'form':form,
+    	'sent_request':sent_request,
+    	'received_request':received_request,
+    }
+
+    return render(request, 'accounts/profile.html', context)
 
 
 

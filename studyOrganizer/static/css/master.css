@@ -14,7 +14,25 @@
   border-radius: 0.5rem;
 }
 
-.body {
-  background-color: #f8f9fe;
+body {
+  background-color: #e5ecee;
 }
+
+tr {
+   line-height: 5px;
+   min-height: 5px;
+   height: 5px;
+}
+
+.material-icons.reactions {
+  font-size: 50px;
+}
+
+.table+.thead{
+  padding: 8px;
+}
+
+
+
+
 

@@ -33,4 +33,23 @@ class Comments(models.Model):
 	date = models.DateTimeField(default=timezone.now)
 	text = models.CharField(max_length=256,verbose_name='Comment')
 
+class Super(models.Model):
+	user = models.ForeignKey(User,related_name='supers',on_delete=models.CASCADE)
+	post = models.ForeignKey(Content,related_name='supers', on_delete=models.CASCADE)
 
+	def __str__(self):
+		return f'user:{self.user},post:{self.post}'
+
+class Like(models.Model):
+	user = models.ForeignKey(User,related_name='likes',on_delete=models.CASCADE)
+	post = models.ForeignKey(Content,related_name='likes', on_delete=models.CASCADE)
+
+	def __str__(self):
+		return f'user:{self.user},post:{self.post}'
+
+class Dislike(models.Model):
+	user = models.ForeignKey(User,related_name='dislikes',on_delete=models.CASCADE)
+	post = models.ForeignKey(Content,related_name='dislikes', on_delete=models.CASCADE)
+
+	def __str__(self):
+		return f'user:{self.user},post:{self.post}'

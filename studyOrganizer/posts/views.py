@@ -1,7 +1,7 @@
 from . forms import ContentForm,CommentsForm
-from . models import Content,Comments
+from . models import Content,Comments,Like,Dislike,Super
 from groups.models import Group
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView,RedirectView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -78,4 +78,20 @@ class ContentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 		if self.request.user == post_obj.author:
 			return True
 		return False
+
+class AddLike(LoginRequiredMixin,ListView):
+	
+	model = Like
+
+	def get(self,request,*args,**kwargs):
+		post = get_object_or_404(Content,id=self.kwargs.get('pk'))
+		user = self.request.user
+		try:
+			Like.objects.get_or_create(user=user,post=post)
+		except:
+			messages.info(self.request, f'You already liked this post')
+
+		return super().get(request,*args,**kwargs)
+
+
 

@@ -10,12 +10,21 @@
 						<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
 						<div class="content">
 							{% if user in element.members.all %}
+								{% if user == request.user %}
+								<small class="float-right">
+								<a href="{% url 'groups:delete' slug=element.slug %}" 
+								class="btn btn-lg btn-fill btn-danger mr-2">
+									<span class="material-icons">remove_circle</span>Delete Group
+								</a>
+								</small>
+								{% else %}
 								<small class="float-right">
 								<a href="{% url 'groups:leave' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-danger mr-2">
 									<span class="material-icons">remove_circle</span>Leave
 								</a>
 								</small>
+								{% endif %}								
 							{% else %}
 								{% if element in group_request %}
 								<small class="float-right">

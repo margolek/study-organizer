@@ -12,4 +12,5 @@ urlpatterns =[
 	path('accept-request/<slug:slug>/',views.AcceptGroupRequest.as_view(),name='accept'),
 	path('reject-request/<slug:slug>/',views.RejectGroupRequest.as_view(),name='reject'),
 	path('leave/<slug:slug>/',views.LeaveGroup.as_view(),name='leave'),
+	path('delete/<slug:slug>/',views.DeleteGroup.as_view(),name='delete'),
 ]

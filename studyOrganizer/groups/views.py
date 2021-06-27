@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User
 
@@ -23,11 +23,12 @@ def creategroup(request):
 			form.save(commit=False)
 			form.instance.created_by = request.user
 			form.save()
+			group = Group.objects.filter(name=form.cleaned_data['name']).get()
+			GroupMember(user=request.user,group=group).save()
 			messages.success(request, message='New group created successfully')
 			return redirect('groups:list')
 	else:
 		form = GroupsModelForm()
-
 	return render(request, 'groups/group_form.html',{'form':form})
 
 
@@ -52,6 +53,16 @@ class ListGroup(ListView):
 
 class SingleGroup(DetailView):
 	model = Group
+
+class DeleteGroup(LoginRequiredMixin,DeleteView):
+	model = Group
+	success_url = reverse_lazy('groups:list')
+
+	def test_func(self):
+		group = self.get_object()
+		if self.request.user == group.created_by and (self.request.user in group.members.all()):
+			return True
+		return False
 
 #########################
 ###Join and Left Group###

@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
+<div class="container">
 	<div class="row">
 	<div class="col-md-8 mx-auto">
 
-	<div class="card">
+	<div class="card mt-5">
 	<div class="body-card">
 	<div class="text-center">
 		<h1>{{group_content.topic}}</h1>
@@ -29,9 +30,44 @@
 	</div>
 	</div>
 	<br>
+
+
+	<div class="card">
+		<div class="body-card ml-2">
+			<p class="text-muted text-center mt-3">... People reacted</p>
+			<h5 class="text-center">Share your opinion about this post</h5>
+			<div class="row justify-content-center">
+			    <div class="col-auto">
+			      <table class="table table-borderless text-center">
+					<thead>
+					    <tr>
+					      <td><a href="{% url 'posts:like' pk=group_content.id %}"><span class="material-icons reactions">favorite</span></a</td>
+					      <td><span class="material-icons reactions">thumb_up</span></td>
+					      <td><span class="material-icons reactions">thumb_down</span></td>
+					    </tr>
+					</thead>
+					<tbody>
+					    <tr class="text-muted">
+					      <td scope="row">Super</td>
+					      <td>Like</td>
+					      <td>Dislike</td>
+					    </tr>
+					    <tr>
+					      <td scope="row"><b>Number</b></td>
+					      <td><b>Number</b></td>
+					      <td><b>Number</b></td>
+					    </tr>
+					</tbody>
+			      </table>
+			    </div>
+			</div>
+		</div>
+	</div>
+
+	<br>
 	<div class="card">
 	<div class="card-body">
-	<form class="form-signin" method="POST">
+	<form class="form" method="POST">
 		{% csrf_token %}
 		{% bootstrap_form form %}
 		<input type="submit" class="btn btn-primary btn-block" value="Add comment">
@@ -44,7 +80,7 @@
 	<div class="row">
 	<div class="col-md-8 mx-auto">
 	{% if group_content.comments.all %}
-	<div class="card">
+	<div class="card mb-5">
 		{% for comment in group_content.comments.all %}
 			<div class="card-body">
 				<a href="#"><b>{{ comment.author }}</b></a>
@@ -60,4 +96,6 @@
 	</div>
 	</div>
 	</div>
+</div>
+</div>
 {% endblock %}

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 @login_required
 def create_content(request,slug):
@@ -79,19 +80,39 @@ class ContentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 			return True
 		return False
 
-class AddLike(LoginRequiredMixin,ListView):
-	
-	model = Like
 
-	def get(self,request,*args,**kwargs):
-		post = get_object_or_404(Content,id=self.kwargs.get('pk'))
-		user = self.request.user
-		try:
-			Like.objects.get_or_create(user=user,post=post)
-		except:
-			messages.info(self.request, f'You already liked this post')
+#Reactions functions
 
-		return super().get(request,*args,**kwargs)
+@login_required
+def like(request):
+	if request.method == 'POST':
+		user = request.user
+		pk = request.POST.get("pk",None)
+		print(pk)
+		post = Content.objects.get(pk=pk)
+		liked = False
+		like = Like.objects.filter(user=user, post=post)
+		if like:
+			like.delete()
+		else:
+			liked = True
+			Like.objects.create(user=user, post=post)
+		response = {
+	        'liked':liked
+	    }
+	return JsonResponse(response)
+
+# class AddLike(LoginRequiredMixin,CreateView):
+
+# 	def get(self,request,*args,**kwargs):
+# 		post = get_object_or_404(Content,id=self.kwargs.get('pk'))
+# 		user = self.request.user
+# 		try:
+# 			Like.objects.get_or_create(user=user,post=post)
+# 		except:
+# 			messages.info(self.request, f'You already liked this post')
+
+# 		return super().get(request,*args,**kwargs)
 
 
 

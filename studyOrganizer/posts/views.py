@@ -10,6 +10,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.http import require_POST
+# from django.http import HttpResponse
+# import json
 
 @login_required
 def create_content(request,slug):
@@ -84,22 +88,21 @@ class ContentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #Reactions functions
 
 @login_required
+@csrf_exempt
 def like(request):
-	if request.method == 'POST':
-		user = request.user
-		pk = request.POST.get("pk",None)
-		print(pk)
-		post = Content.objects.get(pk=pk)
-		liked = False
-		like = Like.objects.filter(user=user, post=post)
-		if like:
-			like.delete()
-		else:
-			liked = True
-			Like.objects.create(user=user, post=post)
-		response = {
-	        'liked':liked
-	    }
+	user = request.user
+	content_id = request.POST.get("content_id")
+	post = Content.objects.get(id=content_id)
+	liked = False
+	like = Like.objects.filter(user=user, post=post)
+	if like:
+		like.delete()
+	else:
+		liked = True
+		Like.objects.create(user=user, post=post)
+	response = {
+        'liked':liked
+    }
 	return JsonResponse(response)
 
 # class AddLike(LoginRequiredMixin,CreateView):

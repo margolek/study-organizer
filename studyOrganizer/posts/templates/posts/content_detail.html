@@ -41,7 +41,14 @@
 			      <table class="table table-borderless text-center">
 					<thead>
 					    <tr>
-					      <td><a href="{% url 'posts:like' %}"><span class="material-icons reactions">favorite</span></a</td>
+					      <td>
+					      	<button class="like" id="{{ group_content.id }}">
+						      	<a href="{% url 'posts:like' %}"
+						      	   id="likebtn{{ group_content.id }}">
+						      		<span class="material-icons reactions">favorite</span>
+						      	</a>
+					      	</button>
+					      </td>
 					      <td><span class="material-icons reactions">thumb_up</span></td>
 					      <td><span class="material-icons reactions">thumb_down</span></td>
 					    </tr>

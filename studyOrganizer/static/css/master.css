@@ -32,6 +32,18 @@ tr {
   padding: 8px;
 }
 
+table thead tr td a,table thead tr td a:hover{
+    color: black;
+}
+
+/*table thead tr td a:hover{
+    color: ;
+}*/
+
+ul.nav li.active a {
+    color: ;
+}
+
 
 
 

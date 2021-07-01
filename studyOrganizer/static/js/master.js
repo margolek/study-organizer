@@ -1,4 +1,4 @@
-$('.like').click(function(event){
+$('.like, .supers, .dislike').click(function(event){
 	var id = $(this).attr('id');
 	var href = $(this).find("a").attr("href");
 	event.preventDefault();
@@ -10,11 +10,29 @@ $('.like').click(function(event){
 			   'csrfmiddlewaretoken': "{{ csrf_token }}",
 			  },
       	success: function (response) {
-        if (response.liked) {
-          $("#likebtn" + id).css("color", "red");
-        } else {
-          $("#likebtn" + id).css("color", "green");
-        }
+      	switch (response.type){
+      		case 'super':
+        	if (response.supers_status) {
+          	$("#superbtn" + id).html('<span class="material-icons reactions">favorite</span>');
+        	} else{
+          	$("#superbtn" + id).html('<span class="material-icons reactions">favorite_border</span>');
+        	}
+      			break;
+      		case 'like':
+		 	if (response.like_status) {
+	          $("#likebtn" + id).html('<span class="material-icons reactions">thumb_up</span>');
+	        } else{
+	          $("#likebtn" + id).html('<span class="material-icons reactions">thumb_up_off_alt</span>');
+	        }
+      			break;
+      		case 'dislike':
+			if (response.dislike_status) {
+	          $("#dislikebtn" + id).html('<span class="material-icons reactions">thumb_down</span>');
+	        } else {
+	          $("#dislikebtn" + id).html('<span class="material-icons reactions">thumb_down_off_alt</span>');
+	        }
+      			break;
+      	}
       },
 	});
 });

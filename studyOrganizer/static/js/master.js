@@ -1,10 +1,22 @@
-$('.reactions').click(function(){
-	console.log('Elo')
+$('.like').click(function(event){
+	var id = $(this).attr('id');
+	var href = $(this).find("a").attr("href");
+	event.preventDefault();
 	$.ajax({
-		url: "{% url 'posts:like' %}",
+		url: href,
 		type: 'POST',
-		data: {'csrfmiddlewaretoken': '{{ csrf_token }}',
-			   'id':$(this).attr('id')},
-		dataType: "json",
+		dataType: 'json',
+		data: {'content_id': id,
+			   'csrfmiddlewaretoken': "{{ csrf_token }}",
+			  },
+      	success: function (response) {
+        if (response.liked) {
+          $("#likebtn" + id).css("color", "red");
+        } else {
+          $("#likebtn" + id).css("color", "green");
+        }
+      },
 	});
 });
+
+

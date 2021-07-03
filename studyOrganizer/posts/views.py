@@ -11,9 +11,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-# from django.views.decorators.http import require_POST
-# from django.http import HttpResponse
-# import json
+
 
 @login_required
 def create_content(request,slug):
@@ -36,6 +34,18 @@ def create_content(request,slug):
 def content_detail(request,pk):
 	group_content = get_object_or_404(Content,pk=pk)
 	author = request.user
+	if Like.objects.filter(user=author,post=group_content):
+		liked=True
+	if not Like.objects.filter(user=author,post=group_content):
+		liked=False
+	if Super.objects.filter(user=author,post=group_content):
+		supers=True
+	if not Super.objects.filter(user=author,post=group_content):
+		supers=False
+	if Dislike.objects.filter(user=author,post=group_content):
+		disliked=True
+	if not Dislike.objects.filter(user=author,post=group_content):
+		disliked=False
 	if request.method == 'POST':
 		form = CommentsForm(request.POST)
 		if form.is_valid():
@@ -46,7 +56,16 @@ def content_detail(request,pk):
 			return redirect('posts:detail',pk=pk)
 	else:
 		form = CommentsForm()
-	return render(request, 'posts/content_detail.html',{'group_content':group_content,'form':form})
+	reactions_sum = Like.objects.filter(post=group_content).count()+Dislike.objects.filter(post=group_content).count()+Super.objects.filter(post=group_content).count()
+	context = {
+		'group_content':group_content,
+		'form':form,
+		'liked':liked,
+		'supers':supers,
+		'disliked':disliked,
+		'reactions_sum':reactions_sum,
+	}
+	return render(request, 'posts/content_detail.html',context)
 
 class ContentUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,UpdateView):
 	model = Content
@@ -93,29 +112,61 @@ def like(request):
 	user = request.user
 	content_id = request.POST.get("content_id")
 	post = Content.objects.get(id=content_id)
-	liked = False
+	like_status = False
 	like = Like.objects.filter(user=user, post=post)
 	if like:
 		like.delete()
 	else:
-		liked = True
+		like_status = True
 		Like.objects.create(user=user, post=post)
 	response = {
-        'liked':liked
+        'like_status':like_status,
+        'type':'like'
     }
 	return JsonResponse(response)
 
-# class AddLike(LoginRequiredMixin,CreateView):
+@login_required
+@csrf_exempt
+def supers(request):
+	user = request.user
+	content_id = request.POST.get("content_id")
+	post = Content.objects.get(id=content_id)
+	supers_status = False
+	supers = Super.objects.filter(user=user, post=post)
+	supers_cnt = Super.objects.filter(post=post).count()
+	if supers:
+		supers.delete()
+	else:
+		supers_status = True
+		Super.objects.create(user=user, post=post)
+	response = {
+        'supers_status':supers_status,
+        'type':'super',
+        'supers_cnt':supers_cnt,
+    }
+	return JsonResponse(response)
 
-# 	def get(self,request,*args,**kwargs):
-# 		post = get_object_or_404(Content,id=self.kwargs.get('pk'))
-# 		user = self.request.user
-# 		try:
-# 			Like.objects.get_or_create(user=user,post=post)
-# 		except:
-# 			messages.info(self.request, f'You already liked this post')
+@login_required
+@csrf_exempt
+def dislike(request):
+	user = request.user
+	content_id = request.POST.get("content_id")
+	post = Content.objects.get(id=content_id)
+	dislike_status = False
+	dislike = Dislike.objects.filter(user=user, post=post)
+	if dislike:
+		dislike.delete()
+	else:
+		dislike_status = True
+		Dislike.objects.create(user=user, post=post)
+	response = {
+        'dislike_status':dislike_status,
+        'type':'dislike'
+    }
+	return JsonResponse(response)
 
-# 		return super().get(request,*args,**kwargs)
+
+
 
 
 

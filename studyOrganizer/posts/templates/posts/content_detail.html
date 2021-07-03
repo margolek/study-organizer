@@ -34,7 +34,13 @@
 
 	<div class="card">
 		<div class="body-card ml-2">
-			<p class="text-muted text-center mt-3">... People reacted</p>
+			<p class="text-muted text-center mt-3" id="reaction{{group_content.id}}">
+				{% if  reactions_sum == 1 %}
+					{{reactions_sum}} Reaction
+				{% else %}
+					{{reactions_sum}} Reactions
+				{% endif %}
+			</p>
 			<h5 class="text-center">Share your opinion about this post</h5>
 			<div class="row justify-content-center">
 			    <div class="col-auto">
@@ -42,15 +48,53 @@
 					<thead>
 					    <tr>
 					      <td>
-					      	<button class="like" id="{{ group_content.id }}">
+					      	<div class="supers" id="{{ group_content.id }}">
+						      	<a href="{% url 'posts:super' %}"
+						      	   id="superbtn{{ group_content.id }}">
+						      	   {% if supers %}
+						      	   <span class="material-icons reactions">
+						      	    favorite
+						      	   </span>
+						      	   {% else %}
+						      	   <span class="material-icons reactions">
+						      	    favorite_border
+						      	   </span>						      	   
+						      	   {% endif %}
+						      	</a>
+					      	</div>
+					      </td>
+					      <td>
+					      	<div class="like" id="{{ group_content.id }}">
 						      	<a href="{% url 'posts:like' %}"
 						      	   id="likebtn{{ group_content.id }}">
-						      		<span class="material-icons reactions">favorite</span>
+						      	   {% if liked %}
+						      	   <span class="material-icons reactions">
+						      	    thumb_up
+						      	   </span>
+						      	   {% else %}
+						      	   <span class="material-icons reactions">
+						      	    thumb_up_off_alt
+						      	   </span>						      	   
+						      	   {% endif %}
 						      	</a>
-					      	</button>
+					      	</div>
 					      </td>
-					      <td><span class="material-icons reactions">thumb_up</span></td>
-					      <td><span class="material-icons reactions">thumb_down</span></td>
+					      <td>
+					      	<div class="dislike" id="{{ group_content.id }}">
+						      	<a href="{% url 'posts:dislike' %}"
+						      	   id="dislikebtn{{ group_content.id }}">
+						      	   {% if disliked %}
+						      	   <span class="material-icons reactions">
+						      	    thumb_down
+						      	   </span>
+						      	   {% else %}
+						      	   <span class="material-icons reactions">
+						      	    thumb_down_off_alt
+						      	   </span>						      	   
+						      	   {% endif %}
+						      	</a>
+					      	</div>
+					      </td>
 					    </tr>
 					</thead>
 					<tbody>
@@ -60,9 +104,15 @@
 					      <td>Dislike</td>
 					    </tr>
 					    <tr>
-					      <td scope="row"><b>Number</b></td>
-					      <td><b>Number</b></td>
-					      <td><b>Number</b></td>
+					      <td scope="row" id="supercnt{{group_content.id}}">
+					      	<b>{{group_content.supers.count}}</b>
+					      </td>
+					      <td id="likecnt{{group_content.id}}">
+					      	<b>{{group_content.likes.count}}</b>
+					      </td>
+					      <td id="dislikecnt{{group_content.id}}">
+					      	<b>{{group_content.dislikes.count}}</b>
+					      </td>
 					    </tr>
 					</tbody>
 			      </table>

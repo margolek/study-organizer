@@ -4,7 +4,7 @@
   <div class="d-flex justify-content-center align-items-center h-100">
     <div class="text-dark">
       <h1 class="mb-3">Study Organizer Home Page!</h1>
-      <h2 class="mb-3">Create new group or check out polls functionality!</h2>
+      <h2 class="mb-3">Create new group or check out existing Group List!</h2>
       <a
         class="btn btn-outline-dark btn-lg m-2"
         href="{% url 'groups:list' %}"
@@ -13,9 +13,9 @@
       </a>
       <a
         class="btn btn-outline-dark btn-lg m-2"
-        href="{% url 'polls:index' %}"
+        href="{% url 'groups:create' %}"
         role="button"
-        >Forms
+        >Create Group
       </a>
      </div>
   </div>

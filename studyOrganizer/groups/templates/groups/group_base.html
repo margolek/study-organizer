@@ -1,24 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card my-5">
-<div class="card-body text-center"> 
-		<div class="ml-5">
-		{% block header %}{% endblock %}
-	</div>
-</div>
-</div>
-<div class="row">
-	<div class="col-md-8">
-		<div class="card">
-		<div class="card-body">
-			{% block posts %}{% endblock %}
-		</div>
-		</div>
-	</div>
-	<div class="col-md-4">
-		<div class="card text-center">
-			{% block members %}{% endblock %}
+<div class="container">
+	<div class="col-md-12">
+		<div class="card my-5">
+			<h1 class="card-header">
+				<div class="d-flex align-center">
+					<span class="font-weight-bold">{{group.name}}</span>
+				</div>
+			</h1>
+			<div class="card-body text-center"> 
+					<div class="mt-5">
+					{% block header %}{% endblock %}
+					</div>
+			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card mb-5">
+				<h4 class="card-header">
+					<div class="d-flex align-center">
+						<span class="material-icons header">bolt</span>
+						<span class="font-weight-bold">Posts</span>
+					</div>
+				</h4>	
+				<div class="card-body">				
+					{% block posts %}{% endblock %}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<h4 class="card-header">
+					<div class="d-flex align-center">
+						<span class="material-icons header">groups</span>
+						<span class="font-weight-bold ml-2">Members: {{group.members.count}}</span>
+					</div>
+				</h4>
+				{% block members %}{% endblock %}
+			</div>
+		</div>
+	</div>	
 </div>
 {% endblock %}

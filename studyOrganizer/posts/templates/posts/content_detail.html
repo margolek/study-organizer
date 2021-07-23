@@ -2,31 +2,27 @@
 {% load bootstrap4 %}
 {% block content %}
 <div class="container">
-	<div class="row">
-	<div class="col-md-8 mx-auto">
 
+	<div class="col-md-12 mx-auto">
 	<div class="card mt-5">
-	<div class="body-card">
-	<div class="text-center">
+	<div class="body-card text-center">
 		<h1>{{group_content.topic}}</h1>
-		<a href="{{ user.profile.prof_img.get_absolute_url }}"><img
-              src="{{ user.profile.prof_img.url }}"
-              class="rounded-circle"
-              width="30"
-              height="30"
-              alt=""/>
-        </a>
-		<p>{{ group_content.author }}</p>
-		<small class="text-muted">
-			Posted on {{ group_content.creation_date }}
-		</small>
-	</div>
-	</div>
-	</div>
-	<br>
-	<div class="card">
-	<div class="body-card ml-2">
-	<p>{{group_content.context}}</p>
+			<div>
+				<img
+	              src="{{ user.profile.prof_img.url }}"
+	              class="rounded-circle"
+	              width="65"
+	              height="65"
+	              alt=""/>
+	        </div>
+		<div class="text-muted mb-3">
+			<span class="material-icons calendadar">calendar_today</span>
+			<span class="align-top">Published: {{ group_content.creation_date }} by {{ group_content.author }}</span>
+		</div>
+		<br>
+		<div class="post-content text-justify ml-5 mr-5">
+			<p>{{group_content.context}}</p>
+		</div>
 	</div>
 	</div>
 	<br>
@@ -122,22 +118,16 @@
 	</div>
 
 	<br>
-	<div class="card">
+	<div class="card mb-5">
 	<div class="card-body">
 	<form class="form" method="POST">
 		{% csrf_token %}
 		{% bootstrap_form form %}
-		<input type="submit" class="btn btn-primary btn-block" value="Add comment">
+		<input type="submit" class="btn btn-primary" value="Add comment">
 	</form>
-	</div>
-	</div>
-	</div>
-	</div>
 	<br>
-	<div class="row">
-	<div class="col-md-8 mx-auto">
 	{% if group_content.comments.all %}
-	<div class="card mb-5">
+	<div>
 		{% for comment in group_content.comments.all %}
 			<div class="card-body">
 				<a href="#"><b>{{ comment.author }}</b></a>
@@ -153,6 +143,8 @@
 	</div>
 	</div>
 	</div>
+	</div>
+
 </div>
 </div>
 {% endblock %}

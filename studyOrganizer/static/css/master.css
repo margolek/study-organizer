@@ -28,6 +28,20 @@ tr {
   font-size: 50px;
 }
 
+.material-icons.calendar{
+ font-size:24px;
+ vertical-align: middle;
+}
+
+.material-icons.header {
+  font-size: 36px;
+  align-items: center;
+}
+
+.align-center {
+    align-items: center !important;
+}
+
 .table+.thead{
   padding: 8px;
 }
@@ -43,6 +57,12 @@ table thead tr td a,table thead tr td a:hover{
 ul.nav li.active a {
     color: ;
 }
+
+.card-header {
+    background-color: #3f74b7e3 !important;
+    color: #f8f9fa;
+}
+
 
 
 

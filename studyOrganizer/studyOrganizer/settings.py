@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'studyorganizer',
         'USER': 'studyorganizeruser',
-        'PASSWORD': 'testing321',
+        'PASSWORD': os.environ.get('DB_STUDY_ORGANIZER_PASSWORD'),
         'HOST': 'localhost',
         'PORT':'5432',
     }
@@ -154,5 +154,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'margolcode@gmail.com'
-EMAIL_HOST_PASSWORD = 'L*(iT1^)b2'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

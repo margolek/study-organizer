@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <div class="container">
 	<div class="col-md-12">
@@ -8,10 +9,10 @@
 					<span class="font-weight-bold">{{group.name}}</span>
 				</div>
 			</h1>
-			<div class="card-body text-center"> 
-					<div class="mt-5">
+			<div class="card-body">
+				<div class="mt-2">
 					{% block header %}{% endblock %}
-					</div>
+				</div>
 			</div>
 		</div>
 	</div>

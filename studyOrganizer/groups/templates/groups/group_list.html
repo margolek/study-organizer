@@ -14,14 +14,16 @@
 								<small class="float-right">
 								<a href="{% url 'groups:delete' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-danger mr-2">
-									<span class="material-icons">remove_circle</span>Delete Group
+									<span class="material-icons update-delete-create">remove_circle</span>
+									<span class="align-middle">Delete Group</span>
 								</a>
 								</small>
 								{% else %}
 								<small class="float-right">
 								<a href="{% url 'groups:leave' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-danger mr-2">
-									<span class="material-icons">remove_circle</span>Leave
+									<span class="material-icons update-delete-create">remove_circle</span>
+									<span class="align-middle">Leave</span>
 								</a>
 								</small>
 								{% endif %}								
@@ -30,14 +32,16 @@
 								<small class="float-right">
 								<a href="{% url 'groups:cancel' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-warning mr-2">
-									<span class="material-icons">remove_circle</span>Cancel Request
+									<span class="material-icons update-delete-create">remove_circle</span>
+									<span class="align-middle">Cancel Request</span>
 								</a>
 								</small>
 								{% else %}
 								<small class="float-right">
 								<a href="{% url 'groups:join' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-success mr-2">
-									<span class="material-icons">check_circle</span>Join
+									<span class="material-icons update-delete-create">check_circle</span>
+									<span class="align-middle">Join</span>
 								</a>
 								</small>								
 								{% endif %}
@@ -46,7 +50,6 @@
 						<p>{{element.description}}</p>
 						<div class="text-muted">
 						<p>Created by: {{ element.created_by }}</p>
-						{# <a href="{% url 'groups:detail' slug=element.slug %}"><p>{{element.name}}</p></a> #}
 						</div>
 						<hr>
 					{% endfor %}

@@ -5,7 +5,7 @@ pain so I decided to create own web-based app to keep everything about studying 
 
 ## Getting started
 First of all check your Python version. We will use Django 3.1 version which requires Python 3.6+
-
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/python.jpg)
 
 
 ## Reactions

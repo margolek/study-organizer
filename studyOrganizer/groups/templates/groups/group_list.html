@@ -10,7 +10,7 @@
 						<a href="{% url 'groups:detail' slug=element.slug %}"><h2>{{element.name}}</h2></a>
 						<div class="content">
 							{% if user in element.members.all %}
-								{% if user == request.user %}
+								{% if user == element.created_by %}
 								<small class="float-right">
 								<a href="{% url 'groups:delete' slug=element.slug %}" 
 								class="btn btn-lg btn-fill btn-danger mr-2">

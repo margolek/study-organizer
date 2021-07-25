@@ -51,16 +51,16 @@ class ListGroup(ListView):
 		context['group_request'] = group_request
 		return context
 
-class SingleGroup(DetailView):
+class SingleGroup(LoginRequiredMixin,UserPassesTestMixin,DetailView):
 	model = Group
-
 	def test_func(self):
 		group = self.get_object()
+		print(group)
 		if self.request.user in group.members.all():
 			return True
 		return False
 
-class DeleteGroup(LoginRequiredMixin,DeleteView):
+class DeleteGroup(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 	model = Group
 	success_url = reverse_lazy('groups:list')
 

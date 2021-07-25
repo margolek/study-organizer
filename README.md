@@ -7,6 +7,26 @@ pain so I decided to create own web-based app to keep everything about studying 
 First of all check your Python version. We will use Django 3.1 version which requires Python 3.6+
 ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/python.jpg)
 
+Then we need to download and configure PostgreSQL as default database. If you are Windows user go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. I share with you how I conducted installation proccess in my Linux machine.
+1. Install PostgreSQL
+```sudo apt update
+```
+```sudo apt install postgresql postgresql-contrib
+```
+2. Creating a new role
+```sudo -u postgres createuser --interactive
+```
+3. Create a new database
+```sudo -u postgres createdb studyorganizer
+
+```
+4. Open PostgreSQL prompt using new role
+```sudo adduser username_here
+
+```
+```sudo -u username_here psql
+```
+5. 
 
 ## Reactions
 ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/gif/ezgif.com-gif-maker.gif)

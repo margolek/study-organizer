@@ -13,28 +13,28 @@ First of all check your Python version. We will use Django 3.1 version which req
 Then we need to download and configure PostgreSQL as default database. 
 #### Windows instalation
 Follow below steps:
- 1. Go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. Remember to put down `PORT_ADDRESS`, `login` and `password`.
- 2. Open psql command
-  ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell.jpg)
-  ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_2.jpg)
- 3. Remain first 4 rows default (just press enter) and then put your database password
- 4. Create database
+1. Go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. Remember to put down `PORT_ADDRESS`, `login` and `password`.
+2. Open psql command
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell.jpg)
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_2.jpg)
+3. Remain first 4 rows default (just press enter) and then put your database password
+4. Create database
   ```shell
   CREATE DATABASE studyorganizer;
   ```
   You can check if database is properly created by type `\l`
   ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_list.jpg)
-  5. create new database user
+5. create new database user
   ```shell
   CREATE USER studyorganizeruser WITH PASSWORD 'your_password_here';
   ```
-  6. modify connection parameters for the user we just created
+6. modify connection parameters for the user we just created
   ```shell
   ALTER ROLE studyorganizeruser SET client_encoding TO 'utf8';
   ALTER ROLE studyorganizeruser SET default_transaction_isolation TO 'read committed';
   ALTER ROLE studyorganizeruser SET timezone TO 'UTC';
   ```
- 7. grant privilages
+7. grant privilages
   ```shell
   GRANT ALL PRIVILEGES ON DATABASE studyorganizer TO studyorganizeruser;
   ```
@@ -49,9 +49,8 @@ I share with you how I conducted installation proccess in my Linux machine. Just
  ```shell
  sudo su - postgres
  ```
- 3. Run `psql` command
+ 3. Run `psql` command  
  ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/linux_shell.jpg)
-
  4. You cal also do step 2 and 3 in one line 
  ```shell
  sudo -u postgres psql

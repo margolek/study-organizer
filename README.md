@@ -13,22 +13,31 @@ First of all check your Python version. We will use Django 3.1 version which req
 Then we need to download and configure PostgreSQL as default database. 
 #### Windows instalation
 Follow below steps:
- 1. go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. Remember to put down `PORT_ADDRESS`, `login` and `password`.
- 2. open psql command ![Alt Text](shell address here)
- 3. remain first 4 rows default (just press enter) and then put your database password
- 4. create database `CREATE DATABASE studyorganizer;`. You can check if database is properly created by type `\l`
- ![Alt Text](database list here)
- 5. create new database user `CREATE USER studyorganizeruser WITH PASSWORD 'your_password_here';`
+ 1. Go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. Remember to put down `PORT_ADDRESS`, `login` and `password`.
+ 2. Open psql command 
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell.jpg)
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_2.jpg)
+ 3. Remain first 4 rows default (just press enter) and then put your database password
+ 4. Create database
+ ```shell
+ CREATE DATABASE studyorganizer;
+ ```
+ You can check if database is properly created by type `\l`
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_list.jpg)
+ 5. create new database user
+ ```shell
+ CREATE USER studyorganizeruser WITH PASSWORD 'your_password_here';
+ ```
  6. modify connection parameters for the user we just created
  ```shell
  ALTER ROLE studyorganizeruser SET client_encoding TO 'utf8';
  ALTER ROLE studyorganizeruser SET default_transaction_isolation TO 'read committed';
  ALTER ROLE studyorganizeruser SET timezone TO 'UTC';
-
  ```
  7. grant privilages
- `GRANT ALL PRIVILEGES ON DATABASE studyorganizer TO studyorganizeruser;`
-
+ ```shell
+ GRANT ALL PRIVILEGES ON DATABASE studyorganizer TO studyorganizeruser;
+ ```
 #### Linux Instalation
 I share with you how I conducted installation proccess in my Linux machine. Just open your command prompt and type.
 1. Install PostgreSQL
@@ -41,7 +50,7 @@ sudo apt install postgresql postgresql-contrib
 sudo su - postgres
 ```
 3. Run `psql` command
-![Alt Text](shell fom linux here)
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/linux_shell.jpg)
 
 4. You cal also do step 2 and 3 in one line 
 ```shell
@@ -51,8 +60,8 @@ sudo -u postgres psql
 
 #### Database resources
 If you get stuck somewhere check following links:
-	* [PostgreSQL instalation](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart)
-	* [PostgreSQL instalation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
+* [PostgreSQL instalation](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart)
+* [PostgreSQL instalation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
 
 
 ### Install dependencies
@@ -60,8 +69,8 @@ First we need to clone repository using following command `git clone https://git
 ```shell
 pip install -r requirments.txt
 ```
-*Warning* If we see this error
-![Alt text](instalation error)
+**Warning** If we see this error
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psycopg2_binary.jpg)
 Replace `psycopg2` by `psycopg2-binary` in `requirments.txt` file
 
 ### Email
@@ -72,16 +81,16 @@ We want to avoid using hard-coded passwords in our code because everyone will ha
 
 #### Windows setup
  1. Open search field end type `env`. You should see similar option:
- ![Alt Text](env)
+ ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/env.jpg)
  2. Click `Edit the system environment variables` and then `Environment variables` in right button corner.
  3. Replace password by your own predefined during database instalation. In this place define also email password and address.
- ![Alt text](env_password)
+ ![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/env_password.jpg)
  4. To changes have affect restart you machine.
 
 #### Linux setup
  1. Open console and navigate to home directory using `cd` command
  2. Configure bashrc settings using nano editor `nano ~/.bashrc`
- ![Alt text](bashrc)
+ ![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/bashrc.jpg)
  3. To save changes press `Ctrl+X` and then `Y` to  accept changes.
  4. Restart you machine
 
@@ -97,20 +106,20 @@ We want to avoid using hard-coded passwords in our code because everyone will ha
 To run server use `python manage.py runserver` command
 
 #### Join to existing group or create new one
-![Alt Text](group_list)
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/group_list.jpg)
 #### Create new topic to discuss in group community
-![Alt Text](group_topic) 
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/create_topic.jpg) 
 #### Speak your mind in commend section
-![Alt text](comments)
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/comments.jpg)
 #### React to post interactively
 ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/gif/ezgif.com-gif-maker.gif)
 #### Create a poll to check group opinion
-![Alt text](poll1)
-![Alt text](poll2)
-#### Do not panic when you forgot password
-![Alt text](password forgot)
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/poll1.jpg)
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/poll2.jpg)
+#### Do not panic when you forget password
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/password_reset.jpg)
 #### Manage group requests from your profile
-![Alt text](requests)
+![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/requests1.jpg)
 
 ### Conclusion
 I hope you check all this functionalities in your local machine. If you get stuck somewhere or have any questions feel free to contant with me. My e-mail address `margolek555@gmail.com` and discord `Margol#9298`. I will be glad to talk about project and idea how to improve functionality. All the best!

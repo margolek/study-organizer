@@ -14,10 +14,10 @@ Then we need to download and configure PostgreSQL as default database.
 #### Windows instalation
 Follow below steps:
 1. Go to [this link](https://www.postgresql.org/download/windows/) and install database using graphical installer. Remember to put down `PORT_ADDRESS`, `login` and `password`.
-2. Open psql command
- ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell.jpg)
- ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_2.jpg)
-3. Remain first 4 rows default (just press enter) and then put your database password
+2. Open psql command   
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell.jpg)  
+3. Remain first 4 rows default (just press enter) and then put your database password  
+![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/psql_shell_2.jpg)
 4. Create database
   ```shell
   CREATE DATABASE studyorganizer;
@@ -79,11 +79,11 @@ To utilize password reset option you have to create separate gmail account. Foll
 We want to avoid using hard-coded passwords in our code because everyone will have access to sensitive data when we put them in publib GitHub repository. To achieve this we will use `Env Variables`.
 
 #### Windows setup
- 1. Open search field end type `env`. You should see similar option:
+ 1. Open search field end type `env`. You should see similar option:  
  ![Alt Text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/env.jpg)
  2. Click `Edit the system environment variables` and then `Environment variables` in right button corner.
- 3. Replace password by your own predefined during database instalation. In this place define also email password and address.
- ![Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/env_password.jpg)
+ 3. Replace password by your own predefined during database instalation. In this place define also email password and address.  
+ !Alt text](https://github.com/margolek/study-organizer/blob/master/studyOrganizer/static/img/env_password.jpg)
  4. To changes have affect restart you machine.
 
 #### Linux setup
